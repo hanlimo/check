@@ -1,4 +1,4 @@
-module check
+module github.com/hanlimo/check
 
 go 1.12
 

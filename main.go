@@ -1,9 +1,9 @@
 package main
 
 import (
-	"check/kubeconf"
-	"check/ops"
 	"fmt"
+	"github.com/hanlimo/check/kubeconf"
+	"github.com/hanlimo/check/ops"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
 )
