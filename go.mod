@@ -3,6 +3,7 @@ module github.com/hanlimo/check
 go 1.12
 
 require (
+	github.com/deniswernert/go-fstab v0.0.0-20141204152952-eb4090f26517
 	github.com/gogo/protobuf v1.3.0 // indirect
 	github.com/google/btree v1.0.0 // indirect
 	github.com/googleapis/gnostic v0.3.1 // indirect

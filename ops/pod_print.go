@@ -28,8 +28,8 @@ func PodPrint(clientSet kubernetes.Clientset) {
 			panic(err)
 		}
 		for _, pod := range pods.Items {
-			counts := containerStatus{}.RestartCount
-			fmt.Printf(" %10s | %30s | 状态: %s | 重启次数: %d\n", namespace.Name, pod.ObjectMeta.Name, pod.Status.Phase,  counts+1)
+			count := pod.Status.ContainerStatuses[0].RestartCount
+			fmt.Printf(" %10s | %30s | 状态: %s | 重启次数: %d\n", namespace.Name, pod.ObjectMeta.Name, pod.Status.Phase,  count)
 
 		}
 	}
