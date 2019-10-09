@@ -23,5 +23,7 @@ func main() {
 	ops.PodPrint(clientSet)
 	fmt.Printf("当前集群不正常pod列表：\n")
 	ops.RestartCount(clientSet)
+	fmt.Printf("磁盘统计状况：\n")
+	ops.DirDetect()
 }
 

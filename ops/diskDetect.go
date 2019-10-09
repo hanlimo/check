@@ -3,8 +3,6 @@ package ops
 import (
 	"fmt"
 	"syscall"
-//	"strings"
-	gofstab "github.com/deniswernert/go-fstab"
 )
 
 type DiskStatus struct {
@@ -31,22 +29,38 @@ func DiskUsage(path string) (disk DiskStatus) {
 	return
 }
 
-func DiskDetect(){
-	mounts ,_ := gofstab.ParseSystem()
+//func DiskDetect(){
+//	mounts ,_ := gofstab.ParseSystem()
+//	if mounts == nil {
+//		fmt.Printf("空的别看了\n")
+//	}
+//
+//	for _,val := range mounts{
+//		//fmt.Printf("%v\n",val.File)
+//		if val.File == "swap"||val.File == "/dev/shm"||val.File == "/dev/pts"||val.File == "/proc"||val.File =="/sys"{
+//			continue
+//		}
+//		disk := DiskUsage(val.File)
+//		fmt.Printf("All: %.2f GB\n", float64(disk.All)/float64(GB))
+//		fmt.Printf("Used: %.2f GB\n", float64(disk.Used)/float64(GB))
+//		fmt.Printf("Free: %.2f GB\n", float64(disk.Free)/float64(GB))
+//
+//		diskAll:=float64(disk.All)/float64(GB)
+//		diskFree:= float64(disk.Free)/float64(GB)
+//
+//		dfPercent:=float64(diskFree/diskAll)
+//		fmt.Printf("%s %.2f%%\n",val.File, dfPercent*100)
+//	}
+//}
+func DirDetect()  {
+	disk := DiskUsage("/Users/hanlimo")
+	fmt.Printf("All: %.2f GB\n", float64(disk.All)/float64(GB))
+	fmt.Printf("Used: %.2f GB\n", float64(disk.Used)/float64(GB))
+	fmt.Printf("Free: %.2f GB\n", float64(disk.Free)/float64(GB))
 
-	for _,val := range mounts{
-		//fmt.Printf("%v\n",val.File)
-		if val.File == "swap"||val.File == "/dev/shm"||val.File == "/dev/pts"||val.File == "/proc"||val.File =="/sys"{
-			continue
-		}
-		disk := DiskUsage(val.File)
-		//fmt.Printf("All: %.2f GB\n", float64(disk.All)/float64(GB))
-		//fmt.Printf("Used: %.2f GB\n", float64(disk.Used)/float64(GB))
-		//fmt.Printf("Free: %.2f GB\n", float64(disk.Free)/float64(GB))
-		diskall:=float64(disk.All)/float64(GB)
-		diskfree:= float64(disk.Free)/float64(GB)
+	diskAll:=float64(disk.All)/float64(GB)
+	diskFree:= float64(disk.Free)/float64(GB)
 
-		dfpercent:=float64(diskfree/diskall)
-		fmt.Printf("%s %.2f%%\n",val.File, dfpercent*100)
-	}
+	dfPercent:=float64(diskFree/diskAll)
+	fmt.Printf("%s %.2f%%\n","/Users/hanlimo", dfPercent*100)
 }
