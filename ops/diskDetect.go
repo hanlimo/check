@@ -52,8 +52,32 @@ func DiskUsage(path string) (disk DiskStatus) {
 //		fmt.Printf("%s %.2f%%\n",val.File, dfPercent*100)
 //	}
 //}
+
+//windows下的解决方法
+//type DiskStatus struct {
+//	All  uint64
+//	Used uint64
+//	Free uint64
+//}
+//
+//func DiskUsage(path string) (disk DiskStatus) {
+//	h := windows.MustLoadDLL("kernel32.dll")
+//	c := h.MustFindProc("GetDiskFreeSpaceExW")
+//	lpFreeBytesAvailable := uint64(0)
+//	lpTotalNumberOfBytes := uint64(0)
+//	lpTotalNumberOfFreeBytes := uint64(0)
+//	r1, r2, err := c.Call(uintptr(unsafe.Pointer(windows.StringToUTF16Ptr("C:"))),
+//		uintptr(unsafe.Pointer(&lpFreeBytesAvailable)),
+//		uintptr(unsafe.Pointer(&lpTotalNumberOfBytes)),
+//		uintptr(unsafe.Pointer(&lpTotalNumberOfFreeBytes)))
+//	disk.All = lpTotalNumberOfBytes
+//	disk.Free = lpTotalNumberOfFreeBytes
+//	disk.Used = lpFreeBytesAvailable
+//	return
+//}
+
 func DirDetect()  {
-	disk := DiskUsage("/Users/hanlimo")
+	disk := DiskUsage("/")
 	fmt.Printf("All: %.2f GB\n", float64(disk.All)/float64(GB))
 	fmt.Printf("Used: %.2f GB\n", float64(disk.Used)/float64(GB))
 	fmt.Printf("Free: %.2f GB\n", float64(disk.Free)/float64(GB))
@@ -62,5 +86,5 @@ func DirDetect()  {
 	diskFree:= float64(disk.Free)/float64(GB)
 
 	dfPercent:=float64(diskFree/diskAll)
-	fmt.Printf("%s %.2f%%\n","/Users/hanlimo", dfPercent*100)
+	fmt.Printf("%s %.2f%%\n","根目录磁盘可用百分比：", dfPercent*100)
 }
