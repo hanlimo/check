@@ -3,15 +3,15 @@ module github.com/hanlimo/check
 go 1.12
 
 require (
-	github.com/deniswernert/go-fstab v0.0.0-20141204152952-eb4090f26517
 	github.com/gogo/protobuf v1.3.0 // indirect
 	github.com/google/btree v1.0.0 // indirect
 	github.com/googleapis/gnostic v0.3.1 // indirect
 	github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79 // indirect
 	github.com/imdario/mergo v0.3.7 // indirect
-	github.com/json-iterator/go v1.1.7 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
+	github.com/prometheus/client_golang v1.1.0
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/crypto v0.0.0-20190926180335-cea2066c6411 // indirect
 	golang.org/x/net v0.0.0-20190926025831-c00fd9afed17 // indirect

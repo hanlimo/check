@@ -27,7 +27,7 @@ func RestartCount(clientSet kubernetes.Clientset) {
 
 func CountAlert(count int32, podName string, containerName string) {
 	if count > 5 {
-		fmt.Printf("Pod:%s中%s容器重启%d次，请相关人员排查\n",count, podName, containerName)
+		fmt.Printf("Pod:%s中%s容器重启%d次，请相关人员排查\n", podName, containerName, count)
 	} else {
 		fmt.Printf("容器%25s正常\n",containerName)
 	}
