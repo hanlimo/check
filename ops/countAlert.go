@@ -2,8 +2,12 @@ package ops
 
 import (
 	"fmt"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/common/log"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+	"net/http"
 )
 
 
@@ -20,6 +24,7 @@ func RestartCount(clientSet kubernetes.Clientset) {
 			podName := pod.Name
 			containerName := pod.Status.ContainerStatuses[i].Name
 			CountAlert(count, podName, containerName)
+			//exporterOut(count)
 		}
 	}
 
@@ -31,4 +36,17 @@ func CountAlert(count int32, podName string, containerName string) {
 	} else {
 		fmt.Printf("容器%25s正常\n",containerName)
 	}
+}
+func exporterOut(count int32) {
+
+	//Create a new instance of the countCollector and
+	//register it with the prometheus client.
+	foo := newCheckCollector(count)
+	prometheus.MustRegister(foo)
+
+	//This section will start the HTTP server and expose
+	//any metrics on the /metrics endpoint.
+	http.Handle("/metrics", promhttp.Handler())
+	log.Info("即将运行到 8848 端口")
+	log.Fatal(http.ListenAndServe(":8848", nil))
 }

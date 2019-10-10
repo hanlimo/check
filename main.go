@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		fmt.Printf("error")
 	}
-	fmt.Printf("集群pod状态总览：")
+	fmt.Printf("集群pod状态总览：\n")
 	ops.PodPrint(clientSet)
 	fmt.Printf("当前集群不正常pod列表：\n")
 	ops.RestartCount(clientSet)
