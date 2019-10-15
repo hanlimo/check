@@ -12,13 +12,13 @@ import (
 	"net/http"
 )
 
-type Pod struct { //下一步重构需要的结构体 podsRaw->pods
-	podName 		string
+type Pods struct { //下一步重构需要的结构体 podsRaw->pods
+	PodsRaw
 	restartCount	int32
 	nameSpace 		string
 }
 
-type Pods struct {
+type PodsRaw struct {
 	podList			*v1.PodList
 	restartSum 		[]int32
 	err 			error
@@ -26,30 +26,28 @@ type Pods struct {
 
 func Run(clientSet kubernetes.Clientset)  {
 	//下一步重构需重命名的变量名 podsRaw->pods
-	podsRaw := Pods{}
+	podsRaw := PodsRaw{}
 	podsRaw.podList, podsRaw.err = clientSet.CoreV1().Pods("").List(meta1.ListOptions{})
 	if podsRaw.err != nil {
 		print("Pod解包失败")
 	}
-
+	//restartCountSum为获取到的所有集群Pod重启次数，默认是第一个容器
 	restartCountSum := podsRaw.RestartCountSum(podsRaw)
-	//count := podsRaw.RestartCountSum(podsRaw)
+
 	podItem := podsRaw.podList.Items
 	for i:=0; i<len(podItem); i++ {
 		if restartCountSum[i] > 5 {
-			fmt.Printf("Pods:%s中%s容器重启%d次，请相关人员排查\n",
+			fmt.Printf("PodsRaw:%s中%s容器重启%d次，请相关人员排查\n",
 				podItem[i].Name, podItem[i].Status.ContainerStatuses, restartCountSum[i])
 		} else {
 			fmt.Printf("容器%25s正常\n",podItem[i].Name)
 		}
 		exporterOut(restartCountSum[i])
 	}
-
-
 	return
 }
 
-func (*Pods) RestartCountSum(pods Pods) (restartSum []int32) {
+func (*PodsRaw) RestartCountSum(pods PodsRaw) (restartSum []int32) {
 
 	if pods.err !=nil {
 		fmt.Printf("Restart_Count program fsailed.")
@@ -67,13 +65,11 @@ func (*Pods) RestartCountSum(pods Pods) (restartSum []int32) {
 
 func exporterOut(count int32) {
 
-	//Create a new instance of the countCollector and
-	//register it with the prometheus client.
+	//创建controller实例并在prometheus客户端注册
 	foo := exporter.NewCheckCollector(count)
 	prometheus.MustRegister(foo)
 
-	//This section will start the HTTP server and expose
-	//any metrics on the /metrics endpoint.
+	//在 /metrics 下暴露端口
 	http.Handle("/metrics", promhttp.Handler())
 	log.Info("即将运行到 8848 端口")
 	log.Fatal(http.ListenAndServe(":8848", nil))

@@ -7,10 +7,10 @@ import (
 )
 
 
-//通过实现 clientSet 的 CoreV1Interface 接口列表中的 PodsGetter 接口方法 Pods(namespace string)返回 PodInterface
-//PodInterface 接口拥有操作 Pods 资源的方法，例如 Create、Update、Get、List 等方法
+//通过实现 clientSet 的 CoreV1Interface 接口列表中的 PodsGetter 接口方法 PodsRaw(namespace string)返回 PodInterface
+//PodInterface 接口拥有操作 PodsRaw 资源的方法，例如 Create、Update、Get、List 等方法
 func PodPrint(clientSet kubernetes.Clientset) (error string) {
-	// 注意：Pods() 方法中 namespace 不指定则获取 Cluster 所有 Pods 列表
+	// 注意：PodsRaw() 方法中 namespace 不指定则获取 Cluster 所有 PodsRaw 列表
 	pods, err := clientSet.CoreV1().Pods("").List(meta.ListOptions{})
 	if pods.Items == nil {
 		fmt.Printf("集群状态获取失败\n")
@@ -20,7 +20,7 @@ func PodPrint(clientSet kubernetes.Clientset) (error string) {
 	}
 
 	namespaces, _ := clientSet.CoreV1().Namespaces().List(meta.ListOptions{})
-	// 获取指定 namespace 中的 Pods 列表信息
+	// 获取指定 namespace 中的 PodsRaw 列表信息
 	//namespace := "kube-system"
 	for _, namespace := range namespaces.Items{ //遍历namespaces
 		//fmt.Printf("%s\n", namespace.Name)
