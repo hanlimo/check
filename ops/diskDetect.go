@@ -2,6 +2,9 @@ package ops
 
 import (
 	"fmt"
+	"github.com/gorilla/mux"
+	"log"
+	"net/http"
 	"syscall"
 )
 
@@ -87,4 +90,29 @@ func DirDetect()  {
 
 	dfPercent:=float64(diskFree/diskAll)
 	fmt.Printf("%s %.2f%%\n","根目录磁盘可用百分比：", dfPercent*100)
+
+	//暴露restful API
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/disk", Index)
+	log.Fatal(http.ListenAndServe(":8848", router))
+
+}
+
+func Index(writer http.ResponseWriter, request *http.Request) {
+	disk := DiskUsage("/")
+	fmt.Printf("All: %.2f GB\n", float64(disk.All)/float64(GB))
+	fmt.Printf("Used: %.2f GB\n", float64(disk.Used)/float64(GB))
+	fmt.Printf("Free: %.2f GB\n", float64(disk.Free)/float64(GB))
+
+	diskAll:=float64(disk.All)/float64(GB)
+	diskFree:= float64(disk.Free)/float64(GB)
+
+	dfPercent:=float64(diskFree/diskAll)
+	if dfPercent <= 0.10 {
+		fmt.Fprintf(writer, "磁盘空间不足")
+	} else {
+		fmt.Fprintf(writer,"%s %.2f%%\n","根目录磁盘可用百分比：",dfPercent*100)
+	}
+
+	//fmt.Fprintf(writer, "Hello, %q", html.EscapeString(request.URL.Path))
 }

@@ -2,18 +2,26 @@ package ops
 
 import (
 	"fmt"
+	"github.com/hanlimo/check/exporter"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/api/core/v1"
+	meta1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"net/http"
 )
 
+type Pod struct {
+	pods *v1.PodList
+	err	error
+}
 
 func RestartCount(clientSet kubernetes.Clientset) {
-
-	pods, err := clientSet.CoreV1().Pods("").List(metav1.ListOptions{})
+	//
+	//podss := Pod{}
+	//podss.pods, podss.err = clientSet.CoreV1().Pods("").List(meta1.ListOptions{})
+	pods, err := clientSet.CoreV1().Pods("").List(meta1.ListOptions{})
 	if err !=nil {
 		fmt.Printf("Restart_Count program fsailed.")
 	}
@@ -41,7 +49,7 @@ func exporterOut(count int32) {
 
 	//Create a new instance of the countCollector and
 	//register it with the prometheus client.
-	foo := newCheckCollector(count)
+	foo := exporter.NewCheckCollector(count)
 	prometheus.MustRegister(foo)
 
 	//This section will start the HTTP server and expose

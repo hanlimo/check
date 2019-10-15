@@ -2,3 +2,4 @@
 ops/.DS_Store
 kubeconf/.DS_Store
 .idea/
+./test/

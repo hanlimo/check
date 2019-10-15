@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/hanlimo/check/exporter"
 	"github.com/hanlimo/check/kubeconf"
 	"github.com/hanlimo/check/ops"
 	v1 "k8s.io/api/core/v1"
@@ -15,7 +16,7 @@ type Pod struct {
 }
 
 func main() {
-	clientSet, err := kubeconf.Kubeconfig_init()
+	clientSet, err := kubeconf.KubeConfig_init()
 	if err != nil {
 		fmt.Printf("error")
 	}
@@ -25,5 +26,7 @@ func main() {
 	ops.RestartCount(clientSet)
 	fmt.Printf("磁盘统计状况：\n")
 	ops.DirDetect()
-}
+	fmt.Printf("exporter running")
+	exporter.HardWireDetect()
 
+}

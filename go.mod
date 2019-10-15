@@ -8,6 +8,7 @@ require (
 	github.com/gogo/protobuf v1.3.0 // indirect
 	github.com/google/btree v1.0.0 // indirect
 	github.com/googleapis/gnostic v0.3.1 // indirect
+	github.com/gorilla/mux v1.7.3
 	github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79 // indirect
 	github.com/imdario/mergo v0.3.7 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

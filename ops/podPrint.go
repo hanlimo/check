@@ -6,8 +6,9 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-// 通过实现 clientSet 的 CoreV1Interface 接口列表中的 PodsGetter 接口方法 Pods(namespace string)返回 PodInterface
-// PodInterface 接口拥有操作 Pod 资源的方法，例如 Create、Update、Get、List 等方法
+
+//通过实现 clientSet 的 CoreV1Interface 接口列表中的 PodsGetter 接口方法 Pods(namespace string)返回 PodInterface
+//PodInterface 接口拥有操作 Pod 资源的方法，例如 Create、Update、Get、List 等方法
 func PodPrint(clientSet kubernetes.Clientset) (error string) {
 	// 注意：Pods() 方法中 namespace 不指定则获取 Cluster 所有 Pod 列表
 	pods, err := clientSet.CoreV1().Pods("").List(meta.ListOptions{})

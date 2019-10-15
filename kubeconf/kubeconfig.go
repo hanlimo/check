@@ -7,13 +7,13 @@ import (
 )
 
 //获取集群的kubeconfig文件
-func Kubeconfig_init() (kubernetes.Clientset, error ) {
-	var kubeconfig *string
-	kubeconfig = flag.String("kubeconfig", "/Users/hanlimo/Desktop/admin.conf", "absolute path to the kubeconfig file")
+func KubeConfig_init() (kubernetes.Clientset, error ) {
+	var kubeConfig *string
+	kubeConfig = flag.String("kubeConfig", "/Users/hanlimo/Desktop/admin.conf", "absolute path to the kubeConfig file")
 	flag.Parse()
 
-	//在 kubeconfig 中使用当前上下文环境，config 获取支持 url 和 path 方式
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	//在 kubeConfig 中使用当前上下文环境，config 获取支持 url 和 path 方式
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeConfig)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -26,3 +26,4 @@ func Kubeconfig_init() (kubernetes.Clientset, error ) {
 	}
 	return *clientSet, nil
 }
+
